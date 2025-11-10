@@ -1,0 +1,161 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.contact-container {
+    display: flex;
+    width: 800px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* Left Section: Form */
+.contact-form-section {
+    flex: 1;
+    background-color: #1a2a53;
+    color: #fff;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.contact-title {
+    font-size: 2.5em;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: #b0b0b0;
+}
+
+.input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.input-container i {
+    color: #b0b0b0;
+    margin-right: 10px;
+}
+
+.input-container input,
+.input-container textarea {
+    width: 100%;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    font-size: 1em;
+    color: #333;
+}
+
+.input-container textarea {
+    resize: none;
+    min-height: 100px;
+}
+
+.input-container input::placeholder,
+.input-container textarea::placeholder {
+    color: #b0b0b0;
+}
+
+.send-message-btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 15px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 500;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+.send-message-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Right Section: Info */
+.contact-info-section {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.info-title {
+    font-size: 1.5em;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: #555;
+}
+
+.info-item i {
+    color: #1a2a53;
+    font-size: 1.2em;
+}
+
+.map-container {
+    position: relative;
+    width: 100%;
+    padding-top: 75%; /* 4:3 aspect ratio */
+    background-color: #f0f0f0;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+.map-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23d8d8d8" d="M100 0H0v100h100V0z"/><path fill="%23e8e8e8" d="M90 10H10v80h80V10z"/><path fill="%23f8f8f8" d="M80 20H20v60h60V20z"/><rect x="30" y="30" width="40" height="40" fill="%23c8c8c8"/><rect x="45" y="45" width="10" height="10" fill="%23a8a8a8"/><rect x="25" y="25" width="50" height="50" fill="none" stroke="%23b8b8b8" stroke-width="2"/><path fill="%234b4b4b" d="M50 35a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5h-10a5 5 0 0 1-5-5v-10a5 5 0 0 1 5-5z"/></svg>');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.map-pin {
+    color: #007bff;
+    font-size: 3em;
+}
