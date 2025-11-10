@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Genuine Eye Project</title>
+<link rel="stylesheet" href="home.css" />
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+/>
+</head>
+<body>
+<header>
+  <div class="logo">
+    <img src="genuine_eye_logo.png" alt="Genuine Eye" />
+    <span>GENUINE EYE</span>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="front.html">Home</a></li>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="hero">
+  <video autoplay muted loop id="myVideo">
+    <source src="blue1.mp4" type="video/mp4" />
+  </video>
+  <div class="hero-content">
+    <h1>Fighting Fake News, One Click at a Time.</h1>
+    <form class="fact-check-form" id="factCheckForm">
+      <input
+        type="text"
+        id="articleInput"
+        class="input-bar"
+        placeholder="Enter a news link or text here..."
+      />
+      <button type="submit" class="submit-button">Fact Check</button>
+    </form>
+    <p id="warning" style="color: red; display: none; margin-top: 10px;">
+      Please enter some text.
+    </p>
+  </div>
+</section>
+
+<div id="resultModal" class="modal">
+  <div class="modal-content">
+    <span class="close-button">&times;</span>
+    <p id="modalResultText"></p>
+  </div>
+</div>
+
+<section class="how-it-works">
+  <h2>How It Works</h2>
+  <div class="steps">
+    <div class="step">
+      <i class="fas fa-link"></i>
+      <h3>Submit a Link</h3>
+      <p>Paste a news article URL or social media link.</p>
+    </div>
+    <div class="step">
+      <i class="fas fa-brain"></i>
+      <h3>Our AI Analyzes</h3>
+      <p>Our advanced AI and team of experts analyze the content for authenticity.</p>
+    </div>
+    <div class="step">
+      <i class="fas fa-check-circle"></i>
+      <h3>Get the Verdict</h3>
+      <p>Receive a clear 'True,' 'False,' or 'Unverified' rating.</p>
+    </div>
+  </div>
+</section>
+
+<section class="recent-fact-checks">
+  <h2>Recent Fact Checks</h2>
+  <div class="checks">
+    <!-- Recent cards will be dynamically inserted here -->
+  </div>
+</section>
+
+<footer>
+  <div class="social-icons">
+    <a href="#"><i class="fab fa-facebook"></i></a>
+    <a href="#"><i class="fab fa-twitter"></i></a>
+    <a href="#"><i class="fab fa-instagram"></i></a>
+  </div>
+  <p>&copy; 2025 Genuine Eye Project. All rights reserved.</p>
+</footer>
+
+<script>
+  const form = document.getElementById('factCheckForm');
+  const inputBar = document.getElementById('articleInput');
+  const modal = document.getElementById('resultModal');
+  const modalResultText = document.getElementById('modalResultText');
+  const closeBtn = document.querySelector('.close-button');
+  const warning = document.getElementById('warning');
+  const checksContainer = document.querySelector('.recent-fact-checks .checks');
+
+  // Add recent checked news cards dynamically
+  function addRecentCheckCard(input, predictionText) {
+    const cardDiv = document.createElement('div');
+    cardDiv.className = 'check-card';
+
+    const img = document.createElement('img');
+    img.src = 'placeholder-news.jpg'; // Replace or add actual placeholders
+    img.alt = `News: ${input.substring(0, 30)}...`;
+
+    const headline = document.createElement('h3');
+    headline.textContent = input.length > 60 ? input.substring(0, 60) + '...' : input;
+
+    const sourcePara = document.createElement('p');
+    sourcePara.className = 'source';
+    sourcePara.textContent = 'Source: User Input';
+
+    const verdictSpan = document.createElement('span');
+    verdictSpan.className = `verdict ${predictionText.toLowerCase()}`;
+    verdictSpan.textContent = predictionText;
+
+    cardDiv.appendChild(img);
+    cardDiv.appendChild(headline);
+    cardDiv.appendChild(sourcePara);
+    cardDiv.appendChild(verdictSpan);
+
+    // Prepend the newest card
+    checksContainer.insertBefore(cardDiv, checksContainer.firstChild);
+  }
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const inputText = inputBar.value.trim();
+
+    if (inputText === '') {
+      warning.style.display = 'block';
+      return;
+    } else {
+      warning.style.display = 'none';
+    }
+
+    try {
+      const response = await fetch('http://127.0.0.1:5000/predict', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: inputText }),
+      });
+
+      const data = await response.json();
+      const prediction = data.prediction;
+      const predictionText = prediction === 1 ? 'True' : prediction === 0 ? 'False' : 'Unverified';
+
+      modalResultText.innerHTML = `
+        <p>Input: "${inputText}"</p>
+        <h2>Result: <span class="verdict ${predictionText.toLowerCase()}">${predictionText}</span> News</h2>
+      `;
+      modal.style.display = 'block';
+
+      // Add recent check card
+      addRecentCheckCard(inputText, predictionText);
+
+    } catch (error) {
+      console.error('Error:', error);
+      modalResultText.textContent =
+        'An error occurred while fetching the prediction.';
+      modal.style.display = 'block';
+    }
+  });
+
+  closeBtn.addEventListener('click', () => {
+    modal.style.display = 'none';
+  });
+
+  window.addEventListener('click', (event) => {
+    if (event.target === modal) {
+      modal.style.display = 'none';
+    }
+  });
+</script>
+</body>
+</html>
